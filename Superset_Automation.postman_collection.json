@@ -1,0 +1,4137 @@
+{
+	"info": {
+		"_postman_id": "aa4f2c62-ac9b-402e-8404-a475d49e31e3",
+		"name": "Superset Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Report Data Update",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Get Session Variables",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c27cc9b6-dac5-4ec1-8518-7ce84e5b10b0",
+										"exec": [
+											"const $ = cheerio.load(responseBody);",
+											"",
+											"var csrftoken = $(\"input[id='csrf_token']\").val();",
+											"postman.setEnvironmentVariable('csrftoken', csrftoken);",
+											"",
+											"var sessionCookie = postman.getResponseCookie(\"session\");",
+											"postman.setEnvironmentVariable('session', sessionCookie.value);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/login/",
+									"protocol": "http",
+									"host": [
+										"dpe-datalake-superset-prod",
+										"service",
+										"usw2-p",
+										"consul"
+									],
+									"port": "8088",
+									"path": [
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Log In Session",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{ssu}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{ssp}}",
+											"type": "text"
+										},
+										{
+											"key": "csrf_token",
+											"value": "{{csrftoken}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/login/",
+									"protocol": "http",
+									"host": [
+										"dpe-datalake-superset-prod",
+										"service",
+										"usw2-p",
+										"consul"
+									],
+									"port": "8088",
+									"path": [
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9cd69168-2058-41fc-912c-ce881f9e4ee0",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6a5a86e3-10be-44c8-8604-8beef80793ad",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Update RI Sources",
+					"item": [
+						{
+							"name": "SQL Drop Table - RI Sources",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-CSRFToken",
+										"type": "text",
+										"value": "{{csrftoken}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "database_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "json",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "schema",
+											"value": "tmp_shared",
+											"type": "text"
+										},
+										{
+											"key": "sql",
+											"value": "DROP TABLE IF EXISTS tmp_shared.ri_sources",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+									"protocol": "http",
+									"host": [
+										"dpe-datalake-superset-prod",
+										"service",
+										"usw2-p",
+										"consul"
+									],
+									"port": "8088",
+									"path": [
+										"superset",
+										"sql_json",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SQL Table Creation - RI Sources",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6a4ad7eb-8faa-4e54-a0be-2b9150d0bd4b",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-CSRFToken",
+										"type": "text",
+										"value": "{{csrftoken}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "database_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "json",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "schema",
+											"value": "tmp_shared",
+											"type": "text"
+										},
+										{
+											"key": "sql",
+											"value": "CREATE TABLE tmp_shared.ri_sources\nAS\nSELECT\n    DISTINCT LS1.source_gnid,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix\nFROM gvd_latest.lineup_source LS1\n    INNER JOIN gvd_latest.source_xid SX1\n        ON LS1.source_gnid = SX1.source_gnid",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+									"protocol": "http",
+									"host": [
+										"dpe-datalake-superset-prod",
+										"service",
+										"usw2-p",
+										"consul"
+									],
+									"port": "8088",
+									"path": [
+										"superset",
+										"sql_json",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9ce3e4e7-b241-45c9-802c-78a40e6cbde2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc39eba1-acfd-4536-ba65-d27c1e6b375c",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response does not contain error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
+									"});"
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Update RI Sources (VOD)",
+					"item": [
+						{
+							"name": "SQL Drop Table - RI Sources (VOD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-CSRFToken",
+										"type": "text",
+										"value": "{{csrftoken}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "database_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "json",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "schema",
+											"value": "tmp_shared",
+											"type": "text"
+										},
+										{
+											"key": "sql",
+											"value": "DROP TABLE IF EXISTS tmp_shared.ri_sources_vod",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+									"protocol": "http",
+									"host": [
+										"dpe-datalake-superset-prod",
+										"service",
+										"usw2-p",
+										"consul"
+									],
+									"port": "8088",
+									"path": [
+										"superset",
+										"sql_json",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SQL Table Creation - RI Sources (VOD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2c21466b-d526-460f-9012-a46d60f9006e",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-CSRFToken",
+										"type": "text",
+										"value": "{{csrftoken}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "database_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "json",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "schema",
+											"value": "tmp_shared",
+											"type": "text"
+										},
+										{
+											"key": "sql",
+											"value": "CREATE TABLE tmp_shared.ri_sources_vod\nAS\nSELECT\n    DISTINCT source_gnid,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix\nFROM gvd_latest.source_context\nWHERE source_context_type = 'VOD'",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+									"protocol": "http",
+									"host": [
+										"dpe-datalake-superset-prod",
+										"service",
+										"usw2-p",
+										"consul"
+									],
+									"port": "8088",
+									"path": [
+										"superset",
+										"sql_json",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d4c9b42e-57fa-48da-a4a1-aa5963a1d289",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "882e4f34-56e5-43d3-8fde-d9042a1cf104",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response does not contain error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
+									"});"
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Update RI Manifest Tables",
+					"item": [
+						{
+							"name": "Update Data (AD to CI - Manifest)",
+							"item": [
+								{
+									"name": "SQL Drop Table (AD to CI - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_adtoci",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (AD to CI - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_manifest_adtoci\nAS\nSELECT\n    CAST('AdToCi' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('catalog_item_gnid' AS VARCHAR) AS join_column,\n    CAST('manifest' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT AD2.catalog_item_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM gvd_latest.availability_day AD2\n        INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2\n            ON AD2.availability_gnid = AMAD2.availability_day_gnid\n        INNER JOIN tmp_shared.ri_sources RS2\n            ON AD2.source_gnid = RS2.source_gnid\n    WHERE AD2.source_gnid = RS2.source_gnid\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT AD1.catalog_item_gnid AS present_objects\n        FROM gvd_latest.availability_day AD1\n            INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1\n                ON AD1.availability_gnid = AMAD1.availability_day_gnid\n            INNER JOIN tmp_shared.ri_sources RS1\n                ON AD1.source_gnid = RS1.source_gnid\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON AD1.catalog_item_gnid = CI1.catalog_item_gnid\n        WHERE CI1.source_gnid = AD1.source_gnid\n            AND AD1.source_gnid = RS1.source_gnid\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (AD to CI - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_manifest_adtoci",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "12c4ddf0-7eb1-4b6e-bb60-6b4a9c68726a",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ee3ec1d9-3bbf-4ba1-afe8-21dc1024a476",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Catalog to Program - Manifest)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Catalog to Program - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_catalogtoprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Catalog to Program - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_manifest_catalogtoprogram\nAS\nSELECT\n    CAST('CatalogToProgram' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('manifest' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM gvd_latest.availability_day AD2\n        INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2\n            ON AD2.availability_gnid = AMAD2.availability_day_gnid\n        INNER JOIN tmp_shared.ri_sources RS2\n            ON AD2.source_gnid = RS2.source_gnid\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON AD2.catalog_item_gnid = CI2.catalog_item_gnid\n    WHERE CI2.source_gnid = AD2.source_gnid\n        AND AD2.source_gnid = RS2.source_gnid\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT P1.program_gnid AS present_objects\n        FROM gvd_latest.availability_day AD1\n            INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1\n                ON AD1.availability_gnid = AMAD1.availability_day_gnid\n            INNER JOIN tmp_shared.ri_sources RS1\n                ON AD1.source_gnid = RS1.source_gnid\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON AD1.catalog_item_gnid = CI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n        WHERE CI1.source_gnid = AD1.source_gnid\n            AND AD1.source_gnid = RS1.source_gnid\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Catalog to Program - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_manifest_catalogtoprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "12c4ddf0-7eb1-4b6e-bb60-6b4a9c68726a",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ee3ec1d9-3bbf-4ba1-afe8-21dc1024a476",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Catalog to Root Program - Manifest)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Catalog to Root Program - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_catalogtorootprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Catalog to Root Program - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_manifest_catalogtorootprogram\nAS\nSELECT\n    CAST('CatalogToRootProgram' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_root_gnid' AS VARCHAR) AS join_column,\n    CAST('manifest' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_root_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM gvd_latest.availability_day AD2\n        INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2\n            ON AD2.availability_gnid = AMAD2.availability_day_gnid\n        INNER JOIN tmp_shared.ri_sources RS2\n            ON AD2.source_gnid = RS2.source_gnid\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON AD2.catalog_item_gnid = CI2.catalog_item_gnid\n    WHERE CI2.source_gnid = AD2.source_gnid\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_root_gnid AS present_objects\n        FROM gvd_latest.availability_day AD1\n            INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1\n                ON AD1.availability_gnid = AMAD1.availability_day_gnid\n            INNER JOIN tmp_shared.ri_sources RS1\n                ON AD1.source_gnid = RS1.source_gnid\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON AD1.catalog_item_gnid = CI1.catalog_item_gnid\n            INNER JOIN gvd_latest.root_program RP1\n                ON RP1.root_program_gnid = CI1.program_root_gnid\n        WHERE CI1.source_gnid = AD1.source_gnid\n            AND AD1.source_gnid = RS1.source_gnid\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Catalog to Root Program - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_manifest_catalogtorootprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Media - Manifest)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Media - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_programtomedia",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Media - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_manifest_programtomedia\nAS\nSELECT\n    CAST('ProgramToMedia' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('manifest' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM gvd_latest.availability_day AD2\n        INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2\n            ON AD2.availability_gnid = AMAD2.availability_day_gnid\n        INNER JOIN tmp_shared.ri_sources RS2\n            ON AD2.source_gnid = RS2.source_gnid\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON AD2.catalog_item_gnid = CI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_media PM2\n            ON PM2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = AD2.source_gnid\n        AND AD2.source_gnid = RS2.source_gnid\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM gvd_latest.availability_day AD1\n            INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1\n                ON AD1.availability_gnid = AMAD1.availability_day_gnid\n            INNER JOIN tmp_shared.ri_sources RS1\n                ON AD1.source_gnid = RS1.source_gnid\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON AD1.catalog_item_gnid = CI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_media PM1\n                ON PM1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.media_context MC1\n                ON MC1.media_gnid = PM1.media_gnid\n        WHERE CI1.source_gnid = AD1.source_gnid\n            AND AD1.source_gnid = RS1.source_gnid\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Media - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_manifest_programtomedia",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Cast - Manifest)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Cast - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_programtocast",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Cast - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_manifest_programtocast\nAS\nSELECT\n    CAST('ProgramToCast' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('manifest' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM gvd_latest.availability_day AD2\n        INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2\n            ON AD2.availability_gnid = AMAD2.availability_day_gnid\n        INNER JOIN tmp_shared.ri_sources RS2\n            ON AD2.source_gnid = RS2.source_gnid\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON AD2.catalog_item_gnid = CI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_cast PC2\n            ON PC2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = AD2.source_gnid\n        AND AD2.source_gnid = RS2.source_gnid\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM gvd_latest.availability_day AD1\n            INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1\n                ON AD1.availability_gnid = AMAD1.availability_day_gnid\n            INNER JOIN tmp_shared.ri_sources RS1\n                ON AD1.source_gnid = RS1.source_gnid\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON AD1.catalog_item_gnid = CI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_cast PC1\n                ON PC1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.root_contributor RC1\n                ON RC1.root_contributor_gnid = PC1.contributor_cast_root_gnid\n        WHERE CI1.source_gnid = AD1.source_gnid\n            AND AD1.source_gnid = RS1.source_gnid\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Cast - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_manifest_programtocast",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Crew - Manifest)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Crew - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_programtocrew",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Crew - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_manifest_programtocrew\nAS\nSELECT\n    CAST('ProgramToCrew' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('manifest' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM gvd_latest.availability_day AD2\n        INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2\n            ON AD2.availability_gnid = AMAD2.availability_day_gnid\n        INNER JOIN tmp_shared.ri_sources RS2\n            ON AD2.source_gnid = RS2.source_gnid\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON AD2.catalog_item_gnid = CI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_crew PC2\n            ON PC2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = AD2.source_gnid\n        AND AD2.source_gnid = RS2.source_gnid\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM gvd_latest.availability_day AD1\n            INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1\n                ON AD1.availability_gnid = AMAD1.availability_day_gnid\n            INNER JOIN tmp_shared.ri_sources RS1\n                ON AD1.source_gnid = RS1.source_gnid\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON AD1.catalog_item_gnid = CI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_crew PC1\n                ON PC1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.root_contributor RC1\n                ON RC1.root_contributor_gnid = PC1.contributor_crew_root_gnid\n        WHERE CI1.source_gnid = AD1.source_gnid\n            AND AD1.source_gnid = RS1.source_gnid\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Crew - Manifest)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_manifest_programtocrew",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "249d089c-d26e-4266-99bd-e93ddcbd0ac8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5009975-6a62-4f12-a44f-780e4eb4e7b7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response does not contain error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
+									"});"
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Update RI Full Tables",
+					"item": [
+						{
+							"name": "Update Data (Catalog to Program - Full)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Catalog to Program - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_full_catalogtoprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Catalog to Program - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_full_catalogtoprogram\nAS\nSELECT\n    CAST('CatalogToProgram' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('full' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT P1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Catalog to Program - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_full_catalogtoprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "12c4ddf0-7eb1-4b6e-bb60-6b4a9c68726a",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ee3ec1d9-3bbf-4ba1-afe8-21dc1024a476",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Catalog to Root Program - Full)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Catalog to Root Program - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_full_catalogtorootprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Catalog to Root Program - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_full_catalogtorootprogram\nAS\nSELECT\n    CAST('CatalogToRootProgram' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_root_gnid' AS VARCHAR) AS join_column,\n    CAST('full' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_root_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_root_gnid AS present_objects\n        FROM tmp_shared.ri_sources RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.root_program RP1\n                ON RP1.root_program_gnid = CI1.program_root_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Catalog to Root Program - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_full_catalogtorootprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Media - Full)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Media - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_full_programtomedia",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Media - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_full_programtomedia\nAS\nSELECT\n    CAST('ProgramToMedia' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('full' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_media PM2\n            ON PM2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_media PM1\n                ON PM1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.media_context MC1\n                ON MC1.media_gnid = PM1.media_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Media - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_full_programtomedia",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Cast - Full)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Cast - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_full_programtocast",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Cast - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_full_programtocast\nAS\nSELECT\n    CAST('ProgramToCast' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('full' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_cast PC2\n            ON PC2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_cast PC1\n                ON PC1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.root_contributor RC1\n                ON RC1.root_contributor_gnid = PC1.contributor_cast_root_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Cast - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_full_programtocast",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Crew - Full)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Crew - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_full_programtocrew",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Crew - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_full_programtocrew\nAS\nSELECT\n    CAST('ProgramToCrew' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('full' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_crew PC2\n            ON PC2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_crew PC1\n                ON PC1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.root_contributor RC1\n                ON RC1.root_contributor_gnid = PC1.contributor_crew_root_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Crew - Full)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_full_programtocrew",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e36ea0da-b962-4888-9e09-81edd621e888",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8951e56f-c1c8-47ce-ad2e-5cccc90120ae",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response does not contain error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
+									"});"
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Update RI VOD Tables",
+					"item": [
+						{
+							"name": "Update Data (Catalog to Program - VOD)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Catalog to Program - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_vod_catalogtoprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Catalog to Program - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_vod_catalogtoprogram\nAS\nSELECT\n    CAST('CatalogToProgram' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('vod' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources_vod RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT P1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources_vod RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Catalog to Program - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_vod_catalogtoprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "12c4ddf0-7eb1-4b6e-bb60-6b4a9c68726a",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ee3ec1d9-3bbf-4ba1-afe8-21dc1024a476",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Catalog to Root Program - VOD)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Catalog to Root Program - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"value": "{{csrftoken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_vod_catalogtorootprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Catalog to Root Program - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_vod_catalogtorootprogram\nAS\nSELECT\n    CAST('CatalogToRootProgram' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_root_gnid' AS VARCHAR) AS join_column,\n    CAST('vod' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_root_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources_vod RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_root_gnid AS present_objects\n        FROM tmp_shared.ri_sources_vod RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.root_program RP1\n                ON RP1.root_program_gnid = CI1.program_root_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Catalog to Root Program - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_vod_catalogtorootprogram",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Media - VOD)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Media - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_vod_programtomedia",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Media - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_vod_programtomedia\nAS\nSELECT\n    CAST('ProgramToMedia' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('vod' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources_vod RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_media PM2\n            ON PM2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources_vod RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_media PM1\n                ON PM1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.media_context MC1\n                ON MC1.media_gnid = PM1.media_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Media - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_vod_programtomedia",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Cast - VOD)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Cast - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_vod_programtocast",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Cast - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_vod_programtocast\nAS\nSELECT\n    CAST('ProgramToCast' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('vod' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources_vod RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_cast PC2\n            ON PC2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources_vod RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_cast PC1\n                ON PC1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.root_contributor RC1\n                ON RC1.root_contributor_gnid = PC1.contributor_cast_root_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Cast - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_vod_programtocast",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Update Data (Program to Crew - VOD)",
+							"item": [
+								{
+									"name": "SQL Drop Table (Program to Crew - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "DROP TABLE IF EXISTS tmp_shared.ri_vod_programtocrew",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Table Creation (Program to Crew - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "CREATE TABLE tmp_shared.ri_vod_programtocrew\nAS\nSELECT\n    CAST('ProgramToCrew' AS VARCHAR) AS ri_reference_name,\n    subset.present_objects,\n    total.total_objects,\n    CAST((\n        CASE\n            WHEN subset.present_objects IS NULL\n                THEN 'MISSING'\n            ELSE\n                'PRESENT'\n        END\n    ) AS VARCHAR) AS object_status,\n    CAST('program_gnid' AS VARCHAR) AS join_column,\n    CAST('vod' AS VARCHAR) AS data_scope,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix,\n    total.processed_date_sources,\n    total.processed_time_unix_sources\nFROM (\n    SELECT\n        DISTINCT CI2.program_gnid AS total_objects,\n        RS2.processed_date AS processed_date_sources,\n        RS2.processed_time_unix AS processed_time_unix_sources\n    FROM tmp_shared.ri_sources_vod RS2\n        INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2\n            ON RS2.source_gnid = CMCI2.source_id\n        INNER JOIN gvd_latest.catalog_item CI2\n            ON CI2.catalog_item_gnid = CMCI2.catalog_item_gnid\n        INNER JOIN gvd_latest.program P2\n            ON P2.program_gnid = CI2.program_gnid\n        INNER JOIN gvd_latest.program_crew PC2\n            ON PC2.program_gnid = P2.program_gnid\n    WHERE CI2.source_gnid = CMCI2.source_id\n) total\n    LEFT OUTER JOIN (\n        SELECT\n            DISTINCT CI1.program_gnid AS present_objects\n        FROM tmp_shared.ri_sources_vod RS1\n            INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1\n                ON RS1.source_gnid = CMCI1.source_id\n            INNER JOIN gvd_latest.catalog_item CI1\n                ON CI1.catalog_item_gnid = CMCI1.catalog_item_gnid\n            INNER JOIN gvd_latest.program P1\n                ON P1.program_gnid = CI1.program_gnid\n            INNER JOIN gvd_latest.program_crew PC1\n                ON PC1.program_gnid = P1.program_gnid\n            INNER JOIN gvd_latest.root_contributor RC1\n                ON RC1.root_contributor_gnid = PC1.contributor_crew_root_gnid\n        WHERE CI1.source_gnid = CMCI1.source_id\n    ) subset\n        ON total.total_objects = subset.present_objects",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SQL Summary Insert (Program to Crew - VOD)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-CSRFToken",
+												"type": "text",
+												"value": "{{csrftoken}}"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "database_id",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "json",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "schema",
+													"value": "tmp_shared",
+													"type": "text"
+												},
+												{
+													"key": "sql",
+													"value": "INSERT INTO tmp_shared.ri_summary\nSELECT\n    CAST(MAX(ri_reference_name) AS VARCHAR) AS ri_reference_name,\n    CAST(MAX(data_scope) AS VARCHAR) AS data_scope,\n    COUNT(present_objects) AS present_objects,\n    COUNT(total_objects) AS total_objects,\n    COUNT(total_objects) - COUNT(present_objects) AS missing_objects,\n    CAST((COUNT(present_objects) * 100.00) / COUNT(total_objects) AS DOUBLE) AS ri_percentage,\n    MAX(processed_date) AS processed_date,\n    MAX(processed_time_unix) AS processed_time_unix,\n    MAX(processed_date_sources) AS processed_date_sources,\n    MAX(processed_time_unix_sources) AS processed_time_unix_sources\nFROM tmp_shared.ri_vod_programtocrew",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+											"protocol": "http",
+											"host": [
+												"dpe-datalake-superset-prod",
+												"service",
+												"usw2-p",
+												"consul"
+											],
+											"port": "8088",
+											"path": [
+												"superset",
+												"sql_json",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "90854ea7-3027-4ac7-bb17-6e5ccd1557b2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4ef0f95e-deea-4e24-b774-f8d57e3cdf2a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response does not contain error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
+									"});"
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "131d6d8d-5a8a-49c5-9f86-c0251275ffa5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "37475863-288e-4e58-8234-35cd61e37918",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Add Table Datasource",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "csrf_token",
+							"value": "{{csrftoken}}",
+							"type": "text"
+						},
+						{
+							"key": "database",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "schema",
+							"value": "tmp_shared",
+							"type": "text"
+						},
+						{
+							"key": "table_name",
+							"value": "ri_full_catalogtoprogram",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/tablemodelview/add",
+					"protocol": "http",
+					"host": [
+						"dpe-datalake-superset-prod",
+						"service",
+						"usw2-p",
+						"consul"
+					],
+					"port": "8088",
+					"path": [
+						"tablemodelview",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Table List Metrics",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "csrf_token",
+							"value": "{{csrftoken}}",
+							"type": "text"
+						},
+						{
+							"key": "metric_name",
+							"value": "missing_objects_count",
+							"type": "text"
+						},
+						{
+							"key": "verbose_name",
+							"value": "Missing Objects Count",
+							"type": "text"
+						},
+						{
+							"key": "expression",
+							"value": "COUNT(total_objects) - COUNT(present_objects)",
+							"type": "text"
+						},
+						{
+							"key": "d3format",
+							"value": "d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/sqlmetricinlineview/add/?_flt_0_table=126\"",
+					"protocol": "http",
+					"host": [
+						"dpe-datalake-superset-prod",
+						"service",
+						"usw2-p",
+						"consul"
+					],
+					"port": "8088",
+					"path": [
+						"",
+						"sqlmetricinlineview",
+						"add",
+						""
+					],
+					"query": [
+						{
+							"key": "_flt_0_table",
+							"value": "126\""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
