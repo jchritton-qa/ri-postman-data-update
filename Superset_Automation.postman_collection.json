@@ -301,14 +301,7 @@
 										"id": "cc39eba1-acfd-4536-ba65-d27c1e6b375c",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response does not contain error\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
-											"});"
+											""
 										]
 									}
 								}
@@ -470,14 +463,7 @@
 										"id": "882e4f34-56e5-43d3-8fde-d9042a1cf104",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response does not contain error\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
-											"});"
+											""
 										]
 									}
 								}
@@ -1778,6 +1764,213 @@
 										}
 									],
 									"_postman_isSubFolder": true
+								},
+								{
+									"name": "Update Data (Source to Media - Manifest)",
+									"item": [
+										{
+											"name": "SQL Drop Table (Source to Media - Manifest)",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "72ca40d4-2c18-4c45-b7e7-4ed664d19e6d",
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-CSRFToken",
+														"type": "text",
+														"value": "{{csrftoken}}"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "database_id",
+															"value": "2",
+															"type": "text"
+														},
+														{
+															"key": "json",
+															"value": "true",
+															"type": "text"
+														},
+														{
+															"key": "schema",
+															"value": "tmp_shared",
+															"type": "text"
+														},
+														{
+															"key": "sql",
+															"value": "{{manifest_sourcetomedia_drop}}",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+													"protocol": "http",
+													"host": [
+														"dpe-datalake-superset-prod",
+														"service",
+														"usw2-p",
+														"consul"
+													],
+													"port": "8088",
+													"path": [
+														"superset",
+														"sql_json",
+														""
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "SQL Table Creation (Source to Media - Manifest)",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "e7c2d207-8cda-4968-9aa8-ab5b1a4323ea",
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-CSRFToken",
+														"type": "text",
+														"value": "{{csrftoken}}"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "database_id",
+															"value": "2",
+															"type": "text"
+														},
+														{
+															"key": "json",
+															"value": "true",
+															"type": "text"
+														},
+														{
+															"key": "schema",
+															"value": "tmp_shared",
+															"type": "text"
+														},
+														{
+															"key": "sql",
+															"value": "{{manifest_sourcetomedia_create}}",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+													"protocol": "http",
+													"host": [
+														"dpe-datalake-superset-prod",
+														"service",
+														"usw2-p",
+														"consul"
+													],
+													"port": "8088",
+													"path": [
+														"superset",
+														"sql_json",
+														""
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "SQL Summary Insert (Source to Media - Manifest)",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "2ce3c5e2-993d-4341-85de-80a0205495e3",
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-CSRFToken",
+														"type": "text",
+														"value": "{{csrftoken}}"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "database_id",
+															"value": "2",
+															"type": "text"
+														},
+														{
+															"key": "json",
+															"value": "true",
+															"type": "text"
+														},
+														{
+															"key": "schema",
+															"value": "tmp_shared",
+															"type": "text"
+														},
+														{
+															"key": "sql",
+															"value": "{{manifest_sourcetomedia_insert}}",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://dpe-datalake-superset-prod.service.usw2-p.consul:8088/superset/sql_json/",
+													"protocol": "http",
+													"host": [
+														"dpe-datalake-superset-prod",
+														"service",
+														"usw2-p",
+														"consul"
+													],
+													"port": "8088",
+													"path": [
+														"superset",
+														"sql_json",
+														""
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"_postman_isSubFolder": true
 								}
 							],
 							"event": [
@@ -1797,14 +1990,7 @@
 										"id": "e5009975-6a62-4f12-a44f-780e4eb4e7b7",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response does not contain error\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
-											"});"
+											""
 										]
 									}
 								}
@@ -2889,14 +3075,7 @@
 										"id": "8951e56f-c1c8-47ce-ad2e-5cccc90120ae",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response does not contain error\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
-											"});"
+											""
 										]
 									}
 								}
@@ -3981,14 +4160,7 @@
 										"id": "4ef0f95e-deea-4e24-b774-f8d57e3cdf2a",
 										"type": "text/javascript",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response does not contain error\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
-											"});"
+											""
 										]
 									}
 								}
@@ -4221,6 +4393,39 @@
 									"                    INNER JOIN gvd_latest.program_crew PC2",
 									"                        ON PC2.program_gnid = P2.program_gnid",
 									"                WHERE CI2.source_gnid = AD2.source_gnid",
+									"                    AND AD2.source_gnid = RS2.source_gnid",
+									"            `.trim()",
+									"        }, {",
+									"            \"ri_reference_name\": \"SourceToMedia\",",
+									"            \"join_column\": \"media_gnid\",",
+									"            \"subset_query\": `",
+									"                SELECT",
+									"                    DISTINCT MC1.media_gnid AS present_objects",
+									"                FROM gvd_latest.availability_day AD1",
+									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
+									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
+									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                        ON AD1.source_gnid = RS1.source_gnid",
+									"                    INNER JOIN gvd_latest.source_media SM1",
+									"                        ON RS1.source_gnid = SM1.source_gnid",
+									"                    INNER JOIN gvd_latest.media_context MC1",
+									"                        ON MC1.media_gnid = SM1.media_gnid",
+									"                WHERE SM1.source_gnid = AD1.source_gnid",
+									"                    AND AD1.source_gnid = RS1.source_gnid",
+									"            `.trim(),",
+									"            \"total_query\": `",
+									"                SELECT",
+									"                    DISTINCT SM2.media_gnid AS total_objects,",
+									"                    RS2.processed_date AS processed_date_sources,",
+									"                    RS2.processed_time_unix AS processed_time_unix_sources",
+									"                FROM gvd_latest.availability_day AD2",
+									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
+									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
+									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                        ON AD2.source_gnid = RS2.source_gnid",
+									"                    INNER JOIN gvd_latest.source_media SM2",
+									"                        ON RS2.source_gnid = SM2.source_gnid",
+									"                WHERE SM2.source_gnid = AD2.source_gnid",
 									"                    AND AD2.source_gnid = RS2.source_gnid",
 									"            `.trim()",
 									"        }",
@@ -4628,7 +4833,14 @@
 								"id": "b1cc1418-e33e-430f-9db4-b3417cc4a95f",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response does not contain error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData, `${jsonData.error}\\n`).to.not.have.property('error')",
+									"});"
 								]
 							}
 						}
