@@ -177,7 +177,7 @@
 											"urlencoded": [
 												{
 													"key": "database_id",
-													"value": "2",
+													"value": "{{database_id}}",
 													"type": "text"
 												},
 												{
@@ -187,12 +187,12 @@
 												},
 												{
 													"key": "schema",
-													"value": "tmp_shared",
+													"value": "{{schema}}",
 													"type": "text"
 												},
 												{
 													"key": "sql",
-													"value": "DROP TABLE IF EXISTS tmp_shared.ri_sources",
+													"value": "DROP TABLE IF EXISTS {{schema}}.ri_sources",
 													"type": "text"
 												}
 											]
@@ -244,7 +244,7 @@
 											"urlencoded": [
 												{
 													"key": "database_id",
-													"value": "2",
+													"value": "{{database_id}}",
 													"type": "text"
 												},
 												{
@@ -254,12 +254,12 @@
 												},
 												{
 													"key": "schema",
-													"value": "tmp_shared",
+													"value": "{{schema}}",
 													"type": "text"
 												},
 												{
 													"key": "sql",
-													"value": "CREATE TABLE tmp_shared.ri_sources\nAS\nSELECT\n    DISTINCT LS1.source_gnid,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix\nFROM gvd_latest.lineup_source LS1\n    INNER JOIN gvd_latest.source_xid SX1\n        ON LS1.source_gnid = SX1.source_gnid",
+													"value": "CREATE TABLE {{schema}}.ri_sources\nAS\nSELECT\n    DISTINCT LS1.source_gnid,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix\nFROM gvd_latest.lineup_source LS1\n    INNER JOIN gvd_latest.source_xid SX1\n        ON LS1.source_gnid = SX1.source_gnid",
 													"type": "text"
 												}
 											]
@@ -339,7 +339,7 @@
 											"urlencoded": [
 												{
 													"key": "database_id",
-													"value": "2",
+													"value": "{{database_id}}",
 													"type": "text"
 												},
 												{
@@ -349,12 +349,12 @@
 												},
 												{
 													"key": "schema",
-													"value": "tmp_shared",
+													"value": "{{schema}}",
 													"type": "text"
 												},
 												{
 													"key": "sql",
-													"value": "DROP TABLE IF EXISTS tmp_shared.ri_sources_vod",
+													"value": "DROP TABLE IF EXISTS {{schema}}.ri_sources_vod",
 													"type": "text"
 												}
 											]
@@ -406,7 +406,7 @@
 											"urlencoded": [
 												{
 													"key": "database_id",
-													"value": "2",
+													"value": "{{database_id}}",
 													"type": "text"
 												},
 												{
@@ -416,12 +416,12 @@
 												},
 												{
 													"key": "schema",
-													"value": "tmp_shared",
+													"value": "{{schema}}",
 													"type": "text"
 												},
 												{
 													"key": "sql",
-													"value": "CREATE TABLE tmp_shared.ri_sources_vod\nAS\nSELECT\n    DISTINCT source_gnid,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix\nFROM gvd_latest.source_context\nWHERE source_context_type = 'VOD'",
+													"value": "CREATE TABLE {{schema}}.ri_sources_vod\nAS\nSELECT\n    DISTINCT source_gnid,\n    CURRENT_DATE AS processed_date,\n    TO_UNIXTIME(CURRENT_TIMESTAMP) AS processed_time_unix\nFROM gvd_latest.source_context\nWHERE source_context_type = 'VOD'",
 													"type": "text"
 												}
 											]
@@ -504,7 +504,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -514,7 +514,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -571,7 +571,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -581,7 +581,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -638,7 +638,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -648,7 +648,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -733,7 +733,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -743,14 +743,8 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
-														},
-														{
-															"key": "sql",
-															"value": "DROP TABLE IF EXISTS tmp_shared.ri_manifest_catalogtoprogram",
-															"type": "text",
-															"disabled": true
 														},
 														{
 															"key": "sql",
@@ -806,7 +800,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -816,7 +810,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -873,7 +867,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -883,7 +877,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -968,7 +962,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -978,7 +972,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1035,7 +1029,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1045,7 +1039,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1102,7 +1096,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1112,7 +1106,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1175,7 +1169,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1185,7 +1179,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1242,7 +1236,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1252,7 +1246,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1309,7 +1303,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1319,7 +1313,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1382,7 +1376,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1392,7 +1386,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1449,7 +1443,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1459,7 +1453,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1516,7 +1510,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1526,7 +1520,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1589,7 +1583,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1599,7 +1593,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1656,7 +1650,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1666,7 +1660,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1723,7 +1717,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1733,7 +1727,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1796,7 +1790,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1806,7 +1800,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1863,7 +1857,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1873,7 +1867,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -1930,7 +1924,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -1940,7 +1934,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2031,7 +2025,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2041,7 +2035,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2098,7 +2092,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2108,7 +2102,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2165,7 +2159,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2175,7 +2169,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2260,7 +2254,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2270,7 +2264,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2327,7 +2321,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2337,7 +2331,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2394,7 +2388,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2404,7 +2398,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2467,7 +2461,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2477,7 +2471,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2534,7 +2528,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2544,7 +2538,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2601,7 +2595,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2611,7 +2605,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2674,7 +2668,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2684,7 +2678,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2741,7 +2735,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2751,7 +2745,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2808,7 +2802,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2818,7 +2812,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2881,7 +2875,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2891,7 +2885,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -2948,7 +2942,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -2958,7 +2952,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3015,7 +3009,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3025,7 +3019,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3116,7 +3110,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3126,7 +3120,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3183,7 +3177,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3193,7 +3187,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3250,7 +3244,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3260,7 +3254,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3345,7 +3339,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3355,7 +3349,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3412,7 +3406,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3422,7 +3416,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3479,7 +3473,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3489,7 +3483,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3552,7 +3546,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3562,7 +3556,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3619,7 +3613,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3629,7 +3623,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3686,7 +3680,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3696,7 +3690,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3759,7 +3753,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3769,7 +3763,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3826,7 +3820,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3836,7 +3830,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3893,7 +3887,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3903,7 +3897,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -3966,7 +3960,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -3976,7 +3970,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -4033,7 +4027,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -4043,7 +4037,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -4100,7 +4094,7 @@
 													"urlencoded": [
 														{
 															"key": "database_id",
-															"value": "2",
+															"value": "{{database_id}}",
 															"type": "text"
 														},
 														{
@@ -4110,7 +4104,7 @@
 														},
 														{
 															"key": "schema",
-															"value": "tmp_shared",
+															"value": "{{schema}}",
 															"type": "text"
 														},
 														{
@@ -4175,7 +4169,7 @@
 								"id": "0ff1e196-ce0d-4d63-bbef-63f69cf6ba7e",
 								"type": "text/javascript",
 								"exec": [
-									"const schemaName = 'tmp_shared';",
+									"const schemaName = 'gvd_md_qa';",
 									"",
 									"const referenceData = {",
 									"    \"manifest\": [",
@@ -4188,7 +4182,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
 									"                        ON AD1.catalog_item_gnid = CI1.catalog_item_gnid",
@@ -4203,7 +4197,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                WHERE AD2.source_gnid = RS2.source_gnid",
 									"            `.trim()",
@@ -4216,7 +4210,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
 									"                        ON AD1.catalog_item_gnid = CI1.catalog_item_gnid",
@@ -4233,7 +4227,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
 									"                        ON AD2.catalog_item_gnid = CI2.catalog_item_gnid",
@@ -4249,7 +4243,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
 									"                        ON AD1.catalog_item_gnid = CI1.catalog_item_gnid",
@@ -4266,7 +4260,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
 									"                        ON AD2.catalog_item_gnid = CI2.catalog_item_gnid",
@@ -4281,7 +4275,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
 									"                        ON AD1.catalog_item_gnid = CI1.catalog_item_gnid",
@@ -4302,7 +4296,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
 									"                        ON AD2.catalog_item_gnid = CI2.catalog_item_gnid",
@@ -4322,7 +4316,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
 									"                        ON AD1.catalog_item_gnid = CI1.catalog_item_gnid",
@@ -4343,7 +4337,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
 									"                        ON AD2.catalog_item_gnid = CI2.catalog_item_gnid",
@@ -4363,7 +4357,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
 									"                        ON AD1.catalog_item_gnid = CI1.catalog_item_gnid",
@@ -4384,7 +4378,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
 									"                        ON AD2.catalog_item_gnid = CI2.catalog_item_gnid",
@@ -4404,7 +4398,7 @@
 									"                FROM gvd_latest.availability_day AD1",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD1",
 									"                        ON AD1.availability_gnid = AMAD1.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS1",
+									"                    INNER JOIN ${schemaName}.ri_sources RS1",
 									"                        ON AD1.source_gnid = RS1.source_gnid",
 									"                    INNER JOIN gvd_latest.source_media SM1",
 									"                        ON RS1.source_gnid = SM1.source_gnid",
@@ -4421,7 +4415,7 @@
 									"                FROM gvd_latest.availability_day AD2",
 									"                    INNER JOIN gvd_latest.availability_manifest_availability_day AMAD2",
 									"                        ON AD2.availability_gnid = AMAD2.availability_day_gnid",
-									"                    INNER JOIN tmp_shared.ri_sources RS2",
+									"                    INNER JOIN ${schemaName}.ri_sources RS2",
 									"                        ON AD2.source_gnid = RS2.source_gnid",
 									"                    INNER JOIN gvd_latest.source_media SM2",
 									"                        ON RS2.source_gnid = SM2.source_gnid",
@@ -4437,7 +4431,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT P1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources RS1",
+									"                FROM ${schemaName}.ri_sources RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4451,7 +4445,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources RS2",
+									"                FROM ${schemaName}.ri_sources RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4464,7 +4458,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_root_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources RS1",
+									"                FROM ${schemaName}.ri_sources RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4478,7 +4472,7 @@
 									"                    DISTINCT CI2.program_root_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources RS2",
+									"                FROM ${schemaName}.ri_sources RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4491,7 +4485,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources RS1",
+									"                FROM ${schemaName}.ri_sources RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4509,7 +4503,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources RS2",
+									"                FROM ${schemaName}.ri_sources RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4526,7 +4520,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources RS1",
+									"                FROM ${schemaName}.ri_sources RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4544,7 +4538,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources RS2",
+									"                FROM ${schemaName}.ri_sources RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4561,7 +4555,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources RS1",
+									"                FROM ${schemaName}.ri_sources RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4579,7 +4573,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources RS2",
+									"                FROM ${schemaName}.ri_sources RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4599,7 +4593,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT P1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources_vod RS1",
+									"                FROM ${schemaName}.ri_sources_vod RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4613,7 +4607,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources_vod RS2",
+									"                FROM ${schemaName}.ri_sources_vod RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4626,7 +4620,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_root_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources_vod RS1",
+									"                FROM ${schemaName}.ri_sources_vod RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4640,7 +4634,7 @@
 									"                    DISTINCT CI2.program_root_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources_vod RS2",
+									"                FROM ${schemaName}.ri_sources_vod RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4654,7 +4648,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources_vod RS1",
+									"                FROM ${schemaName}.ri_sources_vod RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4672,7 +4666,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources_vod RS2",
+									"                FROM ${schemaName}.ri_sources_vod RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4690,7 +4684,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources_vod RS1",
+									"                FROM ${schemaName}.ri_sources_vod RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4708,7 +4702,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources_vod RS2",
+									"                FROM ${schemaName}.ri_sources_vod RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
@@ -4726,7 +4720,7 @@
 									"            \"subset_query\": `",
 									"                SELECT",
 									"                    DISTINCT CI1.program_gnid AS present_objects",
-									"                FROM tmp_shared.ri_sources_vod RS1",
+									"                FROM ${schemaName}.ri_sources_vod RS1",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI1",
 									"                        ON RS1.source_gnid = CMCI1.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI1",
@@ -4744,7 +4738,7 @@
 									"                    DISTINCT CI2.program_gnid AS total_objects,",
 									"                    RS2.processed_date AS processed_date_sources,",
 									"                    RS2.processed_time_unix AS processed_time_unix_sources",
-									"                FROM tmp_shared.ri_sources_vod RS2",
+									"                FROM ${schemaName}.ri_sources_vod RS2",
 									"                    INNER JOIN gvd_latest.catalog_manifest_catalog_item CMCI2",
 									"                        ON RS2.source_gnid = CMCI2.source_id",
 									"                    INNER JOIN gvd_latest.catalog_item CI2",
