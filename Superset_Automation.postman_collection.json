@@ -36,14 +36,7 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": []
@@ -70,14 +63,7 @@
 							"name": "Log In Session",
 							"request": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
